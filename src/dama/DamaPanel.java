@@ -14,10 +14,12 @@ import javax.swing.Timer;
 
 public class DamaPanel extends JPanel implements ActionListener, KeyListener {
 
-    private DamaField field , field1 ;
+    private DamaField field, field1;
+    private DamaFigure figure;
 
     private final int PANEL_HEIGHT = 600;
     private final int PANEL_WIDTH = 600;
+    
     private Timer timer;
 
     public DamaPanel() {
@@ -26,11 +28,11 @@ public class DamaPanel extends JPanel implements ActionListener, KeyListener {
         setLayout(null);
         setBackground(Color.WHITE);
         setFocusable(true);
-        
-        field = new DamaField((PANEL_WIDTH - 560)/2,(PANEL_WIDTH - 560)/2 );
-        field1 = new DamaField((PANEL_WIDTH - 560)/2 + 70,(PANEL_WIDTH - 560)/2 );
-        
 
+        field = new DamaField((PANEL_WIDTH - 560) / 2, (PANEL_HEIGHT - 560) / 2);
+       
+        timer = new Timer(30, this);
+        timer.start();
     }
 
     @Override
@@ -38,23 +40,56 @@ public class DamaPanel extends JPanel implements ActionListener, KeyListener {
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
-        Graphics2D g2 = (Graphics2D) g;
         
 
-        g2d.setPaint(Color.BLACK);
-      
-      
+        int x = field.getX();
+        int y = field.getY();
+       
+        int i, j;
 
-        g2d.fill(field.getFiledRectangle());
-        
+        for (i = 1; i <= 8; i++) {
+            for (j = 1; j <= 8; j++) {
 
-        g2d.setPaint(Color.BLACK);
-        g2d.setStroke(new BasicStroke(2));
-        
+                field1 = new DamaField(x, y);
+                figure = new DamaFigure(x+15, y+15);
+                if (i % 2 == j % 2) {
 
-        g2d.draw(field.getFiledRectangle());
-        g2d.draw(field1.getFiledRectangle());
+                    g2d.setColor(Color.BLACK);
+                    g2d.fill(field1.getFiledRectangle());
+                    g2d.setPaint(Color.BLACK);
+                    g2d.setStroke(new BasicStroke(2));
 
+                    g2d.draw(field1.getFiledRectangle());
+                    x += field.getFILED_WIDTH();
+
+                    if (i == 1 || i == 2 && i % 2 == j % 2) {
+                        g2d.setColor(Color.RED);
+                        
+                    } else if (i == 7 || i == 8 && i % 2 == j % 2) {
+                        g2d.setColor(Color.BLUE);
+                    }
+
+                    g2d.fill(figure.getFigure());
+
+                    g2d.setPaint(Color.BLACK);
+                    g2d.setStroke(new BasicStroke(2));
+
+                    g2d.draw(figure.getFigure());
+
+                } else {
+                    g2d.setColor(Color.WHITE);
+                    g2d.fill(field1.getFiledRectangle());
+                    g2d.setPaint(Color.BLACK);
+                    g2d.setStroke(new BasicStroke(2));
+
+                    g2d.draw(field1.getFiledRectangle());
+                    x += field.getFILED_WIDTH();
+                }
+
+            }
+            y += field.getFILED_WIDTH();
+            x = field.getX();
+        }
     }
 
     @Override
@@ -70,6 +105,7 @@ public class DamaPanel extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
+        
     }
 
     @Override
