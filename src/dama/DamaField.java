@@ -16,8 +16,7 @@ public class DamaField {
     public DamaField(int x, int y) {
         this.x = x;
         this.y = x;
-        
-        
+          
        filedRectangle = new Rectangle2D.Double (x, y,FILED_HIGHT,FILED_WIDTH );
     }
 
