@@ -1,21 +1,20 @@
-package dama;
+package checkers;
 
 import java.awt.geom.Ellipse2D;
 
+public class CheckersFigure {
 
-public class DamaFigure {
-    
     private Ellipse2D.Double figure;
-   // private Ellipse3D.Double figure;
+
     public final int FIGURE_HIGHT = 40;
     public final int FIGURE_WIDTH = 40;
     private int x;
     private int y;
 
-    public DamaFigure(int x,int y) {
+    public CheckersFigure(int x, int y) {
         this.x = x;
         this.y = y;
-        
+
         figure = new Ellipse2D.Double(x, y, FIGURE_HIGHT, FIGURE_WIDTH);
     }
 
@@ -38,6 +37,5 @@ public class DamaFigure {
     public int getFIGURE_WIDTH() {
         return FIGURE_WIDTH;
     }
-    
-    
+
 }

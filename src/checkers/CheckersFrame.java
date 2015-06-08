@@ -1,11 +1,11 @@
-package dama;
+package checkers;
 
 import javax.swing.JFrame;
 
-public class DamaFrame extends JFrame {
+public class CheckersFrame extends JFrame {
 
-    public DamaFrame() {
-        DamaPanel panel = new DamaPanel();
+    public CheckersFrame() {
+        CheckersPanel panel = new CheckersPanel();
         setResizable(false);
 
         add(panel);
