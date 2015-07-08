@@ -4,38 +4,35 @@ import java.awt.geom.Ellipse2D;
 
 public class CheckersFigure {
 
-    private Ellipse2D.Double figure;
+    static final int EMPTY = 0, RED = 1, RED_KING = 2, BLUE = 3, BLUE_KING = 4;
+    int[][] figure;
 
-    public final int FIGURE_HIGHT = 40;
-    public final int FIGURE_WIDTH = 40;
-    private int x;
-    private int y;
-
-    public CheckersFigure(int x, int y) {
-        this.x = x;
-        this.y = y;
-
-        figure = new Ellipse2D.Double(x, y, FIGURE_HIGHT, FIGURE_WIDTH);
+    public CheckersFigure() {
+        figure = new int[8][8];
+        setUpGame();
     }
 
-    public Ellipse2D.Double getFigure() {
-        return figure;
+    void setUpGame() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (row % 2 == col % 2) {
+                    if (col < 3) {
+                        figure[row][col] = BLUE;
+                    } else if (col > 4) {
+                        figure[row][col] = RED;
+                    } else {
+                        figure[row][col] = EMPTY;
+                    }
+                } else {
+                    figure[row][col] = EMPTY;
+                }
+            }
+        }
+
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getFIGURE_HIGHT() {
-        return FIGURE_HIGHT;
-    }
-
-    public int getFIGURE_WIDTH() {
-        return FIGURE_WIDTH;
+    int pieceAt(int row, int col) {
+        return figure[row][col];
     }
 
 }
