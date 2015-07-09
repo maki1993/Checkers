@@ -35,4 +35,21 @@ public class CheckersFigure {
         return figure[row][col];
     }
 
+    void moveFigure(int row1, int col1, int row2, int col2) {
+        figure[row2][col2] = figure[row1][col1];
+        figure[row1][col1] = EMPTY;
+        if (row1 - row2 == 2 || row1 - row2 == -2) {
+
+            int jumpRow = (row1 + row2) / 2;
+            int jumpCol = (col1 + col2) / 2;
+            figure[jumpRow][jumpCol] = EMPTY;
+        }
+        if (row2 == 0 && figure[row2][col2] == RED) {
+            figure[row2][row2] = RED_KING;
+        }
+        if (row2 == 0 && figure[row2][col2] == BLUE) {
+            figure[row2][col2] = BLUE_KING;
+        }
+    }
+
 }
