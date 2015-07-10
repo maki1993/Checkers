@@ -33,6 +33,7 @@ public class CheckersFigure {
 
     int pieceAt(int row, int col) {
         return figure[row][col];
+
     }
 
     void moveFigure(int row1, int col1, int row2, int col2) {
@@ -51,49 +52,63 @@ public class CheckersFigure {
             figure[row2][col2] = BLUE_KING;
         }
     }
+
+    void moveFigure(CheckersMove move) {
+        moveFigure(move.row1, move.col1, move.row2, move.col2);
+    }
+
     private boolean canJump(int player, int row1, int col1, int row2, int col2, int row3, int col3) {
-         
-         if (row3 < 0 || row3 >= 8 || col3 < 0 || col3 >= 8)
-            return false;  
-         
-         if (figure[row3][col3] != EMPTY)
-            return false;  
-         
-         if (player == RED) {
-            if (figure[row1][col1] == RED && row3 > row1)
-               return false;  
-            if (figure[row2][col2] != BLUE && figure[row2][col2] != BLUE_KING)
-               return false;  
-            return true; 
-         }
-         else {
-            if (figure[row1][col1] == BLUE && row3 < row1)
-               return false; 
-            if (figure[row2][col2] != RED && figure[row2][col2] != RED_KING)
-               return false;  
-            return true;  
-         }
-         
-      } 
+
+        if (row3 < 0 || row3 >= 8 || col3 < 0 || col3 >= 8) {
+            return false;
+        }
+
+        if (figure[row3][col3] != EMPTY) {
+            return false;
+        }
+
+        if (player == RED) {
+            if (figure[row1][col1] == RED && row3 > row1) {
+                return false;
+            }
+            if (figure[row2][col2] != BLUE && figure[row2][col2] != BLUE_KING) {
+                return false;
+            }
+            return true;
+        } else {
+            if (figure[row1][col1] == BLUE && row3 < row1) {
+                return false;
+            }
+            if (figure[row2][col2] != RED && figure[row2][col2] != RED_KING) {
+                return false;
+            }
+            return true;
+        }
+
+    }
+
     private boolean canMove(int player, int row1, int col1, int row2, int col2) {
-         
-         if (row2 < 0 || row2 >= 8 || col2 < 0 || col2 >= 8)
+
+        if (row2 < 0 || row2 >= 8 || col2 < 0 || col2 >= 8) {
             return false;
-         
-         if (figure[row2][col2] != EMPTY)
+        }
+
+        if (figure[row2][col2] != EMPTY) {
             return false;
-         
-         if (player == RED) {
-            if (figure[row1][col1] == RED && row2 > row1)
-               return false;  
-            return true;  
-         }
-         else {
-            if (figure[row1][col1] == BLUE && row2 < row1)
-               return false; 
-            return true; 
-         }
-         
-      } 
+        }
+
+        if (player == RED) {
+            if (figure[row1][col1] == RED && row2 > row1) {
+                return false;
+            }
+            return true;
+        } else {
+            if (figure[row1][col1] == BLUE && row2 < row1) {
+                return false;
+            }
+            return true;
+        }
+
+    }
 
 }

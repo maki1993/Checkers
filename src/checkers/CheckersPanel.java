@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,6 +20,9 @@ public class CheckersPanel extends JPanel implements ActionListener, KeyListener
 
     private final int PANEL_HEIGHT = 600;
     private final int PANEL_WIDTH = 600;
+    CheckersMove move;
+
+    int selectedRow, selectedCol;
 
     private Timer timer;
 
