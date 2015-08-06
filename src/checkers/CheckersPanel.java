@@ -9,22 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class CheckersPanel extends JPanel implements ActionListener, KeyListener {
+public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
 
     CheckersField[][] Field = new CheckersField[8][8];
     CheckersFigure figure;
 
     private final int PANEL_HEIGHT = 600;
     private final int PANEL_WIDTH = 600;
-    CheckersMove move;
+    CheckersMove[] moves;
+
+    int currentPlayer;
 
     int selectedRow, selectedCol;
-
-    private Timer timer;
 
     public CheckersPanel() {
 
@@ -33,18 +36,23 @@ public class CheckersPanel extends JPanel implements ActionListener, KeyListener
         setBackground(Color.GRAY);
         setFocusable(true);
 
-        timer = new Timer(30, this);
-        timer.start();
+        addMouseListener(this);
 
         figure = new CheckersFigure();
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Field[i][j] = new CheckersField(20 + i * 70, 20 + j * 70);
-
             }
-
         }
+
+        currentPlayer = CheckersFigure.RED;
+        moves = figure.getMoves(CheckersFigure.RED);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 
     @Override
@@ -76,40 +84,98 @@ public class CheckersPanel extends JPanel implements ActionListener, KeyListener
                     case CheckersFigure.RED_KING:
                         g2d.setColor(Color.RED);
                         g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                        g2d.setColor(Color.WHITE);
-                        g2d.drawString("K", 20 + row * 70, 20 + col * 70);
+                        g2d.setColor(Color.GREEN);
+                        g2d.drawString("K", 50 + row * 70, 50 + col * 70);
                         break;
                     case CheckersFigure.BLUE_KING:
                         g2d.setColor(Color.BLUE);
                         g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                        g2d.setColor(Color.WHITE);
-                        g2d.drawString("K", 20 + row * 70, 20 + col * 70);
+                        g2d.setColor(Color.GREEN);
+                        g2d.drawString("K", 50 + row * 70, 50 + col * 70);
                         break;
 
                 }
 
             }
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+    void doClickSquare(int row, int col) {
+
+        for (int i = 0; i < moves.length; i++) {
+            if (moves[i].row1 == row && moves[i].col1 == col) {
+                selectedRow = row;
+                selectedCol = col;
+
+                if (currentPlayer == CheckersFigure.RED) {
+                    System.out.println("Crveni je na potezu!");
+                } else {
+                    System.out.println("Plavi je na potezu!");
+                }
+                repaint();
+                return;
+            }
+        }
+
+        for (int i = 0; i < moves.length; i++) {
+            if (moves[i].row1 == selectedRow && moves[i].col1 == selectedCol
+                    && moves[i].row2 == row && moves[i].col2 == col) {
+                doMakeMove(moves[i]);
+                return;
+            }
+        }
+
+    }
+
+    void doMakeMove(CheckersMove move) {
+
+        figure.moveFigure(move);
+
+        if (currentPlayer == CheckersFigure.RED) {
+            currentPlayer = CheckersFigure.BLUE;
+            moves = figure.getMoves(currentPlayer);
+
+        } else {
+            currentPlayer = CheckersFigure.RED;
+            moves = figure.getMoves(currentPlayer);
+
+        }
+        selectedRow = -1;
+        if (moves != null) {
+
+            selectedRow = moves[0].row1;
+            selectedCol = moves[0].col1;
+        }
+
+        repaint();
 
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void mouseClicked(MouseEvent e) {
+        int row = (e.getX()) / 70;
+        int col = (e.getY()) / 70;
+        if (col >= 0 && col < 8 && row >= 0 && row < 8) {
+            doClickSquare(row, col);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
 
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void mouseReleased(MouseEvent e) {
+    }
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
 }

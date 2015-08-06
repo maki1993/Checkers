@@ -1,6 +1,7 @@
 package checkers;
 
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 public class CheckersFigure {
 
@@ -45,10 +46,10 @@ public class CheckersFigure {
             int jumpCol = (col1 + col2) / 2;
             figure[jumpRow][jumpCol] = EMPTY;
         }
-        if (row2 == 0 && figure[row2][col2] == RED) {
-            figure[row2][row2] = RED_KING;
+        if (col2 == 0 && figure[row2][col2] == RED) {
+            figure[row2][col2] = RED_KING;
         }
-        if (row2 == 0 && figure[row2][col2] == BLUE) {
+        if (col2 == 7 && figure[row2][col2] == BLUE) {
             figure[row2][col2] = BLUE_KING;
         }
     }
@@ -68,7 +69,7 @@ public class CheckersFigure {
         }
 
         if (player == RED) {
-            if (figure[row1][col1] == RED && row3 > row1) {
+            if (figure[row1][col1] == RED && col3 > col1) {
                 return false;
             }
             if (figure[row2][col2] != BLUE && figure[row2][col2] != BLUE_KING) {
@@ -76,7 +77,7 @@ public class CheckersFigure {
             }
             return true;
         } else {
-            if (figure[row1][col1] == BLUE && row3 < row1) {
+            if (figure[row1][col1] == BLUE && col3 < col1) {
                 return false;
             }
             if (figure[row2][col2] != RED && figure[row2][col2] != RED_KING) {
@@ -98,12 +99,12 @@ public class CheckersFigure {
         }
 
         if (player == RED) {
-            if (figure[row1][col1] == RED && row2 > row1) {
+            if (figure[row1][col1] == RED && col2 > col1) {
                 return false;
             }
             return true;
         } else {
-            if (figure[row1][col1] == BLUE && row2 < row1) {
+            if (figure[row1][col1] == BLUE && col2 < col1) {
                 return false;
             }
             return true;
@@ -111,4 +112,37 @@ public class CheckersFigure {
 
     }
 
+    CheckersMove[] getMoves(int player) {
+
+        if (player != RED && player != BLUE) {
+            return null;
+        }
+
+        ArrayList<CheckersMove> moves = new ArrayList<CheckersMove>();
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (figure[row][col] == player) {
+                    if (canMove(player, row, col, row + 1, col + 1)) {
+                        moves.add(new CheckersMove(row, col, row + 1, col + 1));
+                    }
+                    if (canMove(player, row, col, row - 1, col + 1)) {
+                        moves.add(new CheckersMove(row, col, row - 1, col + 1));
+                    }
+                    if (canMove(player, row, col, row + 1, col - 1)) {
+                        moves.add(new CheckersMove(row, col, row + 1, col - 1));
+                    }
+                    if (canMove(player, row, col, row - 1, col - 1)) {
+                        moves.add(new CheckersMove(row, col, row - 1, col - 1));
+                    }
+                }
+            }
+        }
+        CheckersMove[] moveArray = new CheckersMove[moves.size()];
+        for (int i = 0; i < moves.size(); i++) {
+            moveArray[i] = moves.get(i);
+        }
+        return moveArray;
+
+    }
 }
