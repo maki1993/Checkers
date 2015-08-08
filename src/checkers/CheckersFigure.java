@@ -119,6 +119,24 @@ public class CheckersFigure {
         }
 
         ArrayList<CheckersMove> moves = new ArrayList<CheckersMove>();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (figure[row][col] == player) {
+                    if (canJump(player, row, col, row + 1, col + 1, row + 2, col + 2)) {
+                        moves.add(new CheckersMove(row, col, row + 2, col + 2));
+                    }
+                    if (canJump(player, row, col, row - 1, col + 1, row - 2, col + 2)) {
+                        moves.add(new CheckersMove(row, col, row - 2, col + 2));
+                    }
+                    if (canJump(player, row, col, row + 1, col - 1, row + 2, col - 2)) {
+                        moves.add(new CheckersMove(row, col, row + 2, col - 2));
+                    }
+                    if (canJump(player, row, col, row - 1, col - 1, row - 2, col - 2)) {
+                        moves.add(new CheckersMove(row, col, row - 2, col - 2));
+                    }
+                }
+            }
+        }
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
