@@ -54,7 +54,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     public void actionPerformed(ActionEvent e) {
 
     }
-
+    
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -81,13 +81,13 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                         g2d.setColor(Color.BLUE);
                         g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
                         break;
-                    case CheckersFigure.RED_KING:
+                    case CheckersFigure.RED_QUEEN:
                         g2d.setColor(Color.RED);
                         g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
                         g2d.setColor(Color.GREEN);
                         g2d.drawString("K", 50 + row * 70, 50 + col * 70);
                         break;
-                    case CheckersFigure.BLUE_KING:
+                    case CheckersFigure.BLUE_QUEEN:
                         g2d.setColor(Color.BLUE);
                         g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
                         g2d.setColor(Color.GREEN);
@@ -98,6 +98,11 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
             }
         }
+        g2d.setColor(Color.GREEN);
+            for (int i = 0; i < moves.length; i++) {
+                g2d.drawRect(21 + moves[i].row1 * 70, 21 + moves[i].col1 * 70, 69, 69);
+                g2d.drawRect(22 + moves[i].row1 * 70, 22 + moves[i].col1 * 70, 67, 67);
+            }
 
     }
 
