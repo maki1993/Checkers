@@ -7,14 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
 
@@ -26,6 +22,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     CheckersMove[] moves;
 
     int currentPlayer;
+    Boolean inGame;
 
     int selectedRow, selectedCol;
 
@@ -33,8 +30,10 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setLayout(null);
-        setBackground(Color.GRAY);
+        setBackground(Color.LIGHT_GRAY);
         setFocusable(true);
+
+        inGame = false;
 
         addMouseListener(this);
 
@@ -45,64 +44,72 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 Field[i][j] = new CheckersField(20 + i * 70, 20 + j * 70);
             }
         }
+    }
 
+    void newGame() {
+        figure.setUpGame();
         currentPlayer = CheckersFigure.RED;
         moves = figure.getMoves(CheckersFigure.RED);
+        inGame = true;
+        repaint();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
-    
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
+        if (inGame) {
 
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                if (row % 2 == col % 2) {
-                    g2d.setColor(Color.BLACK);
-                } else {
-                    g2d.setColor(Color.WHITE);
+            for (int row = 0; row < 8; row++) {
+                for (int col = 0; col < 8; col++) {
+                    if (row % 2 == col % 2) {
+                        g2d.setColor(Color.BLACK);
+                    } else {
+                        g2d.setColor(Color.WHITE);
+                    }
+                    g2d.fill(Field[row][col].getFiledRectangle());
+                    g2d.setPaint(Color.BLACK);
+                    g2d.setStroke(new BasicStroke(2));
+                    g2d.draw(Field[row][col].getFiledRectangle());
+                    switch (figure.pieceAt(row, col)) {
+                        case CheckersFigure.RED:
+                            g2d.setColor(Color.RED);
+                            g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
+                            break;
+                        case CheckersFigure.BLUE:
+                            g2d.setColor(Color.BLUE);
+                            g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
+                            break;
+                        case CheckersFigure.RED_QUEEN:
+                            g2d.setColor(Color.RED);
+                            g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
+                            g2d.setColor(Color.GREEN);
+                            g2d.drawString("K", 50 + row * 70, 50 + col * 70);
+                            break;
+                        case CheckersFigure.BLUE_QUEEN:
+                            g2d.setColor(Color.BLUE);
+                            g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
+                            g2d.setColor(Color.GREEN);
+                            g2d.drawString("K", 50 + row * 70, 50 + col * 70);
+                            break;
+
+                    }
+
                 }
-                g2d.fill(Field[row][col].getFiledRectangle());
-                g2d.setPaint(Color.BLACK);
-                g2d.setStroke(new BasicStroke(2));
-                g2d.draw(Field[row][col].getFiledRectangle());
-                switch (figure.pieceAt(row, col)) {
-                    case CheckersFigure.RED:
-                        g2d.setColor(Color.RED);
-                        g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                        break;
-                    case CheckersFigure.BLUE:
-                        g2d.setColor(Color.BLUE);
-                        g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                        break;
-                    case CheckersFigure.RED_QUEEN:
-                        g2d.setColor(Color.RED);
-                        g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                        g2d.setColor(Color.GREEN);
-                        g2d.drawString("K", 50 + row * 70, 50 + col * 70);
-                        break;
-                    case CheckersFigure.BLUE_QUEEN:
-                        g2d.setColor(Color.BLUE);
-                        g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                        g2d.setColor(Color.GREEN);
-                        g2d.drawString("K", 50 + row * 70, 50 + col * 70);
-                        break;
-
-                }
-
             }
-        }
-        g2d.setColor(Color.GREEN);
+            g2d.setColor(Color.GREEN);
             for (int i = 0; i < moves.length; i++) {
                 g2d.drawRect(21 + moves[i].row1 * 70, 21 + moves[i].col1 * 70, 69, 69);
                 g2d.drawRect(22 + moves[i].row1 * 70, 22 + moves[i].col1 * 70, 67, 67);
             }
+        }
 
     }
 
@@ -146,7 +153,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             moves = figure.getMoves(currentPlayer);
 
         }
-        selectedRow = -1;
+        
         if (moves != null) {
 
             selectedRow = moves[0].row1;
