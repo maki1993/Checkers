@@ -5,10 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
@@ -21,16 +25,20 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     private final int PANEL_WIDTH = 600;
     CheckersMove[] moves;
 
+    private Image background;
+
     int currentPlayer;
     Boolean inGame;
 
     int selectedRow, selectedCol;
 
     public CheckersPanel() {
+        
+        loadImages();
 
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setLayout(null);
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(Color.WHITE);
         setFocusable(true);
 
         inGame = false;
@@ -46,7 +54,24 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         }
     }
 
+    private void loadImages() {
+        
+        try {
+            background = ImageIO.read(new File("src/images/Checkers-300x300.jpg"));
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        
+    }
+
+    private void drawBackground(Graphics2D g2d) {
+        
+        g2d.drawImage(background, 0, 0, PANEL_WIDTH + 5, PANEL_HEIGHT, null);
+        
+    }
+
     void newGame() {
+        
         figure.setUpGame();
         currentPlayer = CheckersFigure.RED;
         moves = figure.getMoves(CheckersFigure.RED);
@@ -65,6 +90,9 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
+        
+        drawBackground(g2d);
+        
         if (inGame) {
 
             for (int row = 0; row < 8; row++) {
@@ -153,7 +181,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             moves = figure.getMoves(currentPlayer);
 
         }
-        
+
         if (moves != null) {
 
             selectedRow = moves[0].row1;
@@ -166,11 +194,13 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        
         int row = (e.getX()) / 70;
         int col = (e.getY()) / 70;
         if (col >= 0 && col < 8 && row >= 0 && row < 8) {
             doClickSquare(row, col);
         }
+        
     }
 
     @Override
