@@ -33,7 +33,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     int selectedRow, selectedCol;
 
     public CheckersPanel() {
-        
+
         loadImages();
 
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -55,23 +55,23 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     }
 
     private void loadImages() {
-        
+
         try {
             background = ImageIO.read(new File("src/images/Checkers-300x300.jpg"));
         } catch (IOException e) {
             System.out.println(e);
         }
-        
+
     }
 
     private void drawBackground(Graphics2D g2d) {
-        
+
         g2d.drawImage(background, 0, 0, PANEL_WIDTH + 5, PANEL_HEIGHT, null);
-        
+
     }
 
     void newGame() {
-        
+
         figure.setUpGame();
         currentPlayer = CheckersFigure.RED;
         moves = figure.getMoves(CheckersFigure.RED);
@@ -90,9 +90,9 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
-        
+
         drawBackground(g2d);
-        
+
         if (inGame) {
 
             for (int row = 0; row < 8; row++) {
@@ -148,11 +148,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 selectedRow = row;
                 selectedCol = col;
 
-                if (currentPlayer == CheckersFigure.RED) {
-                    System.out.println("Crveni je na potezu!");
-                } else {
-                    System.out.println("Plavi je na potezu!");
-                }
                 repaint();
                 return;
             }
@@ -175,10 +170,20 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         if (currentPlayer == CheckersFigure.RED) {
             currentPlayer = CheckersFigure.BLUE;
             moves = figure.getMoves(currentPlayer);
+            if (moves == null) {
+                System.out.println("Plavi ne može da se pomeri.Crveni je pobedio.");
+            } else {
+                System.out.println("Plavi je na potezu!");
+            }
 
         } else {
             currentPlayer = CheckersFigure.RED;
             moves = figure.getMoves(currentPlayer);
+            if (moves == null) {
+                System.out.println("Crveni ne može da se pomeri.Plavi je pobedio.");
+            } else {
+                System.out.println("Crveni je na potezu!");
+            }
 
         }
 
@@ -194,13 +199,13 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
         int row = (e.getX()) / 70;
         int col = (e.getY()) / 70;
         if (col >= 0 && col < 8 && row >= 0 && row < 8) {
             doClickSquare(row, col);
         }
-        
+
     }
 
     @Override

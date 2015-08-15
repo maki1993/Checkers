@@ -1,12 +1,13 @@
 package checkers;
 
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class CheckersFigure {
 
     static final int EMPTY = 0, RED = 1, RED_QUEEN = 2, BLUE = 3, BLUE_QUEEN = 4;
     int[][] figure;
+
+    int size;
 
     public CheckersFigure() {
         figure = new int[8][8];
@@ -30,6 +31,14 @@ public class CheckersFigure {
             }
         }
 
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     int pieceAt(int row, int col) {
