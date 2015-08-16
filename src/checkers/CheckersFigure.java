@@ -165,11 +165,15 @@ public class CheckersFigure {
             }
         }
 
-        CheckersMove[] moveArray = new CheckersMove[moves.size()];
-        for (int i = 0; i < moves.size(); i++) {
-            moveArray[i] = moves.get(i);
-        }
-        return moveArray;
+        if (moves.size() == 0) {
+            return null;
+        } else {
+            CheckersMove[] moveArray = new CheckersMove[moves.size()];
+            for (int i = 0; i < moves.size(); i++) {
+                moveArray[i] = moves.get(i);
+            }
+            return moveArray;
 
+        }
     }
 }
