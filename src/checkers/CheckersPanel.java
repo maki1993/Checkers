@@ -19,10 +19,12 @@ import javax.swing.JPanel;
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
 
     CheckersField[][] Field = new CheckersField[8][8];
+
+    CheckersField field = new CheckersField(20, 20);
+
     CheckersFigure figure;
 
-    private final int PANEL_HEIGHT = 600;
-    private final int PANEL_WIDTH = 600;
+    private final int PANEL_DIMENSION = 600;
     CheckersMove[] moves;
 
     private Image background;
@@ -36,7 +38,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         loadImages();
 
-        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        setPreferredSize(new Dimension(PANEL_DIMENSION, PANEL_DIMENSION));
         setLayout(null);
         setBackground(Color.WHITE);
         setFocusable(true);
@@ -49,7 +51,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Field[i][j] = new CheckersField(20 + i * 70, 20 + j * 70);
+                Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_HIGHT(), field.getX() + j * field.getFILED_HIGHT());
             }
         }
     }
@@ -66,7 +68,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     private void drawBackground(Graphics2D g2d) {
 
-        g2d.drawImage(background, 0, 0, PANEL_WIDTH + 5, PANEL_HEIGHT, null);
+        g2d.drawImage(background, 0, 0, PANEL_DIMENSION + 5, PANEL_DIMENSION + 5, null);
 
     }
 
@@ -76,8 +78,14 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         currentPlayer = CheckersFigure.RED;
         moves = figure.getMoves(CheckersFigure.RED);
         inGame = true;
+        selectedRow = -1;
         repaint();
 
+    }
+
+    void gameOver(String str) {
+
+        inGame = false;
     }
 
     @Override
@@ -132,10 +140,22 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
                 }
             }
-            g2d.setColor(Color.GREEN);
+            g2d.setColor(Color.ORANGE);
             for (int i = 0; i < moves.length; i++) {
                 g2d.drawRect(21 + moves[i].row1 * 70, 21 + moves[i].col1 * 70, 69, 69);
                 g2d.drawRect(22 + moves[i].row1 * 70, 22 + moves[i].col1 * 70, 67, 67);
+            }
+            if (selectedRow >= 0) {
+                g.setColor(Color.pink);
+                g.drawRect(21 + selectedRow * 70, 21 + selectedCol * 70, 69, 69);
+                g.drawRect(21 + selectedRow * 70, 22 + selectedCol * 70, 67, 67);
+                g.setColor(Color.green);
+                for (int i = 0; i < moves.length; i++) {
+                    if (moves[i].col1 == selectedCol && moves[i].row1 == selectedRow) {
+                        g.drawRect(21 + moves[i].row2 * 70, 21 + moves[i].col2 * 70, 69, 69);
+                        g.drawRect(22 + moves[i].row2 * 70, 22 + moves[i].col2 * 70, 67, 67);
+                    }
+                }
             }
         }
 
@@ -171,7 +191,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             currentPlayer = CheckersFigure.BLUE;
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
-                System.out.println("Plavi ne može da se pomeri.Crveni je pobedio.");
+                gameOver("Plavi ne može da se pomeri.Crveni je pobedio.");
             } else {
                 System.out.println("Plavi je na potezu!");
             }
@@ -180,28 +200,39 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             currentPlayer = CheckersFigure.RED;
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
-                System.out.println("Crveni ne može da se pomeri.Plavi je pobedio.");
+                gameOver("Crveni ne može da se pomeri.Plavi je pobedio.");
             } else {
                 System.out.println("Crveni je na potezu!");
             }
 
         }
+        selectedRow = -1;
 
         if (moves != null) {
+            boolean sameStartField = true;
+            for (int i = 1; i < moves.length; i++) {
+                if (moves[i].row1 != moves[0].row1
+                        || moves[i].col1 != moves[0].col1) {
+                    sameStartField = false;
+                    break;
+                }
+            }
+            if (sameStartField) {
 
-            selectedRow = moves[0].row1;
-            selectedCol = moves[0].col1;
+                selectedRow = moves[0].row1;
+                selectedCol = moves[0].col1;
+            }
+            repaint();
+
         }
-
-        repaint();
 
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        int row = (e.getX()) / 70;
-        int col = (e.getY()) / 70;
+        int row = (e.getX()) / field.getFILED_HIGHT();
+        int col = (e.getY()) / field.getFILED_HIGHT();
         if (col >= 0 && col < 8 && row >= 0 && row < 8) {
             doClickSquare(row, col);
         }
