@@ -3,6 +3,7 @@ package checkers;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -24,6 +25,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     CheckersField field = new CheckersField(20, 20);
 
     CheckersFigure figure;
+    
+    private Font mainFont;
 
     private final int PANEL_DIMENSION = 600;
     CheckersMove[] moves;
@@ -37,6 +40,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     public CheckersPanel() {
 
+        mainFont = new Font("Monotype Corsiva", Font.BOLD, 25);
         loadImages();
 
         setPreferredSize(new Dimension(PANEL_DIMENSION, PANEL_DIMENSION));
@@ -91,7 +95,12 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         answer = javax.swing.JOptionPane.showConfirmDialog(null, str + "Da li želite da igrate ponovo ?", "Game Over",
                 javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
         if (answer == javax.swing.JOptionPane.NO_OPTION) {
-            System.exit(0);
+            int answer1;
+            answer1 = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da napustite igru ?", "Game Over",
+                    javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+            if (answer1 == javax.swing.JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
         } else {
             newGame();
         }
@@ -107,6 +116,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
+        
+        g2d.setFont(mainFont);
 
         drawBackground(g2d);
 
@@ -135,14 +146,14 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                         case CheckersFigure.RED_QUEEN:
                             g2d.setColor(Color.RED);
                             g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                            g2d.setColor(Color.GREEN);
-                            g2d.drawString("K", 50 + row * 70, 50 + col * 70);
+                            g2d.setColor(Color.WHITE);
+                            g2d.drawString("K", 45 + row * 70, 60 + col * 70);
                             break;
                         case CheckersFigure.BLUE_QUEEN:
                             g2d.setColor(Color.BLUE);
                             g2d.fillOval(32 + row * 70, 32 + col * 70, 45, 45);
-                            g2d.setColor(Color.GREEN);
-                            g2d.drawString("K", 50 + row * 70, 50 + col * 70);
+                            g2d.setColor(Color.WHITE);
+                            g2d.drawString("K", 45 + row * 70, 60 + col * 70);
                             break;
 
                     }
