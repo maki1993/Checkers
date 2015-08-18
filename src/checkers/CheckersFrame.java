@@ -40,7 +40,6 @@ public class CheckersFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (CheckersPanel.getInGame()) {
                     int answer;
                     answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
@@ -50,10 +49,9 @@ public class CheckersFrame extends JFrame {
                     }
                 }
                 panel.newGame();
-
+                sizeOf = 8;
             }
         });
-
         game1.addActionListener(new ActionListener() {
 
             @Override
@@ -67,6 +65,8 @@ public class CheckersFrame extends JFrame {
                     }
                 }
                 panel.newGame();
+                sizeOf = 12;
+
             }
         });
 
