@@ -11,6 +11,8 @@ public class CheckersFrame extends JFrame {
 
     CheckersPanel panel = new CheckersPanel();
 
+    static int sizeOf;
+
     public CheckersFrame() {
 
         setResizable(false);
@@ -20,6 +22,7 @@ public class CheckersFrame extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
     }
 
     private JMenuBar initMenu() {
@@ -37,10 +40,36 @@ public class CheckersFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if (CheckersPanel.getInGame()) {
+                    int answer;
+                    answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
+                            javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+                    if (answer == javax.swing.JOptionPane.YES_OPTION) {
+                        panel.newGame();
+                    }
+                }
                 panel.newGame();
 
             }
         });
+
+        game1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (CheckersPanel.getInGame()) {
+                    int answer;
+                    answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
+                            javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+                    if (answer == javax.swing.JOptionPane.YES_OPTION) {
+                        panel.newGame();
+                    }
+                }
+                panel.newGame();
+            }
+        });
+
         exit.addActionListener(new ActionListener() {
 
             @Override
@@ -64,4 +93,9 @@ public class CheckersFrame extends JFrame {
 
         return menuBar;
     }
+
+    public static int getSizeOf() {
+        return sizeOf;
+    }
+
 }

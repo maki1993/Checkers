@@ -14,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 
 import javax.swing.JPanel;
 
@@ -25,7 +24,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     CheckersField field = new CheckersField(20, 20);
 
     CheckersFigure figure;
-    
+
     private Font mainFont;
 
     private final int PANEL_DIMENSION = 600;
@@ -34,7 +33,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     private Image background;
 
     int currentPlayer;
-    Boolean inGame;
+    static Boolean inGame;
 
     int selectedRow, selectedCol;
 
@@ -70,6 +69,11 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     }
 
+    public static Boolean getInGame() {
+        return inGame;
+    }
+
+    
     private void drawBackground(Graphics2D g2d) {
 
         g2d.drawImage(background, 0, 0, PANEL_DIMENSION + 5, PANEL_DIMENSION + 5, null);
@@ -84,6 +88,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         inGame = true;
         selectedCol = -1;
         System.out.println("Crveni je na potezu!");
+        System.out.println(CheckersFrame.getSizeOf());
         repaint();
 
     }
@@ -108,7 +113,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        newGame();
     }
 
     @Override
@@ -116,11 +121,10 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
-        
+
         g2d.setFont(mainFont);
 
         drawBackground(g2d);
-
         if (inGame) {
 
             for (int row = 0; row < 8; row++) {
