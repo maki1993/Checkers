@@ -49,7 +49,6 @@ public class CheckersFrame extends JFrame {
                     }
                 }
                 panel.newGame();
-                sizeOf = 8;
             }
         });
         game1.addActionListener(new ActionListener() {
@@ -65,7 +64,6 @@ public class CheckersFrame extends JFrame {
                     }
                 }
                 panel.newGame();
-                sizeOf = 12;
 
             }
         });
