@@ -7,16 +7,18 @@ public class CheckersFigure {
     static final int EMPTY = 0, RED = 1, RED_QUEEN = 2, BLUE = 3, BLUE_QUEEN = 4;
     int[][] figure;
 
-    int size;
+    static int size;
 
     public CheckersFigure() {
-        figure = new int[8][8];
+        size = 8;
+        figure = new int[size][size];
         setUpGame();
+
     }
 
     void setUpGame() {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
                 if (row % 2 == col % 2) {
                     if (col < 3) {
                         figure[row][col] = BLUE;
@@ -33,12 +35,13 @@ public class CheckersFigure {
 
     }
 
-    public int getSize() {
+    public static int getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public int setSize(int size) {
         this.size = size;
+        return size;
     }
 
     int pieceAt(int row, int col) {
@@ -58,7 +61,7 @@ public class CheckersFigure {
         if (col2 == 0 && figure[row2][col2] == RED) {
             figure[row2][col2] = RED_QUEEN;
         }
-        if (col2 == 7 && figure[row2][col2] == BLUE) {
+        if (col2 == size - 1 && figure[row2][col2] == BLUE) {
             figure[row2][col2] = BLUE_QUEEN;
         }
     }
@@ -69,7 +72,7 @@ public class CheckersFigure {
 
     private boolean canJump(int player, int row1, int col1, int row2, int col2, int row3, int col3) {
 
-        if (row3 < 0 || row3 >= 8 || col3 < 0 || col3 >= 8) {
+        if (row3 < 0 || row3 >= size || col3 < 0 || col3 >= size) {
             return false;
         }
 
@@ -99,7 +102,7 @@ public class CheckersFigure {
 
     private boolean canMove(int player, int row1, int col1, int row2, int col2) {
 
-        if (row2 < 0 || row2 >= 8 || col2 < 0 || col2 >= 8) {
+        if (row2 < 0 || row2 >= size || col2 < 0 || col2 >= size) {
             return false;
         }
 
@@ -134,8 +137,8 @@ public class CheckersFigure {
         }
 
         ArrayList<CheckersMove> moves = new ArrayList<CheckersMove>();
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
                 if (figure[row][col] == player || figure[row][col] == playerQueen) {
                     if (canJump(player, row, col, row + 1, col + 1, row + 2, col + 2)) {
                         moves.add(new CheckersMove(row, col, row + 2, col + 2));

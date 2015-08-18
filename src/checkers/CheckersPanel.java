@@ -52,8 +52,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         figure = new CheckersFigure();
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < CheckersFigure.getSize(); i++) {
+            for (int j = 0; j < CheckersFigure.getSize(); j++) {
                 Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_HIGHT(), field.getX() + j * field.getFILED_HIGHT());
             }
         }
@@ -73,7 +73,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         return inGame;
     }
 
-    
     private void drawBackground(Graphics2D g2d) {
 
         g2d.drawImage(background, 0, 0, PANEL_DIMENSION + 5, PANEL_DIMENSION + 5, null);
@@ -127,8 +126,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         drawBackground(g2d);
         if (inGame) {
 
-            for (int row = 0; row < 8; row++) {
-                for (int col = 0; col < 8; col++) {
+            for (int row = 0; row < CheckersFigure.getSize(); row++) {
+                for (int col = 0; col < CheckersFigure.getSize(); col++) {
                     if (row % 2 == col % 2) {
                         g2d.setColor(Color.BLACK);
                     } else {
