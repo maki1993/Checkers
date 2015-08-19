@@ -11,8 +11,6 @@ public class CheckersFrame extends JFrame {
 
     CheckersPanel panel = new CheckersPanel();
 
-    static int sizeOf;
-
     public CheckersFrame() {
 
         setResizable(false);
@@ -32,39 +30,27 @@ public class CheckersFrame extends JFrame {
         JMenu menu = new JMenu("Game");
         JMenu menu1 = new JMenu("Help");
 
-        JMenuItem game = new JMenuItem("8x8");
-        JMenuItem game1 = new JMenuItem("12x12");
+        JMenuItem game = new JMenuItem("New Game");
         JMenuItem exit = new JMenuItem("Exit");
 
         game.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (CheckersPanel.getInGame()) {
                     int answer;
                     answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
                             javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
                     if (answer == javax.swing.JOptionPane.YES_OPTION) {
                         panel.newGame();
+                        /*panel.frame.setVisible(true);
+                         panel.frame.setLocationRelativeTo(panel);*/
                     }
                 }
+                /*panel.frame.setVisible(true);
+                 panel.frame.setLocationRelativeTo(panel);*/
                 panel.newGame();
-            }
-        });
-        game1.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (CheckersPanel.getInGame()) {
-                    int answer;
-                    answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
-                            javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
-                    if (answer == javax.swing.JOptionPane.YES_OPTION) {
-                        panel.newGame();
-                    }
-                }
-                panel.newGame();
-
             }
         });
 
@@ -83,17 +69,12 @@ public class CheckersFrame extends JFrame {
         });
 
         menu.add(game);
-        menu.add(game1);
         menu.add(exit);
 
         menuBar.add(menu);
         menuBar.add(menu1);
 
         return menuBar;
-    }
-
-    public static int getSizeOf() {
-        return sizeOf;
     }
 
 }

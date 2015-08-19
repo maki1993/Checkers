@@ -10,10 +10,10 @@ public class CheckersFigure {
     static int size;
 
     public CheckersFigure() {
+
         size = 8;
         figure = new int[size][size];
         setUpGame();
-
     }
 
     void setUpGame() {
@@ -39,9 +39,8 @@ public class CheckersFigure {
         return size;
     }
 
-    public int setSize(int size) {
+    public void setSize(int size) {
         this.size = size;
-        return size;
     }
 
     int pieceAt(int row, int col) {

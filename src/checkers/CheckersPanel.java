@@ -30,6 +30,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     private final int PANEL_DIMENSION = 600;
     CheckersMove[] moves;
 
+    GameFrame frame;
     private Image background;
 
     int currentPlayer;
@@ -51,6 +52,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         addMouseListener(this);
 
         figure = new CheckersFigure();
+
+        frame = new GameFrame(this);
 
         for (int i = 0; i < CheckersFigure.getSize(); i++) {
             for (int j = 0; j < CheckersFigure.getSize(); j++) {
@@ -80,14 +83,12 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     }
 
     void newGame() {
-
         figure.setUpGame();
         currentPlayer = CheckersFigure.RED;
         moves = figure.getMoves(CheckersFigure.RED);
         inGame = true;
-        selectedCol = -1;
         System.out.println("Crveni je na potezu!");
-        System.out.println(CheckersFrame.getSizeOf());
+        selectedCol = -1;
         repaint();
 
     }
