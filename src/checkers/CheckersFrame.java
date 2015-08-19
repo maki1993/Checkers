@@ -2,6 +2,8 @@ package checkers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,8 +29,8 @@ public class CheckersFrame extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
 
-        JMenu menu = new JMenu("Game");
-        JMenu menu1 = new JMenu("Help");
+        JMenu gameMenu = new JMenu("Game");
+        JMenu helpMenu = new JMenu("Help");
 
         JMenuItem game = new JMenuItem("New Game");
         JMenuItem exit = new JMenuItem("Exit");
@@ -67,12 +69,37 @@ public class CheckersFrame extends JFrame {
 
             }
         });
+        helpMenu.addMouseListener(new MouseListener() {
 
-        menu.add(game);
-        menu.add(exit);
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+              panel.helpFrame.setVisible(true);
+              panel.helpFrame.setLocationRelativeTo(panel);
 
-        menuBar.add(menu);
-        menuBar.add(menu1);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        gameMenu.add(game);
+        gameMenu.add(exit);
+
+        menuBar.add(gameMenu);
+        menuBar.add(helpMenu);
 
         return menuBar;
     }

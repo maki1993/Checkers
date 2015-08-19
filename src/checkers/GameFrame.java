@@ -3,7 +3,6 @@ package checkers;
 public class GameFrame extends javax.swing.JFrame {
 
     static int sizeOf;
-    CheckersFigure figure;
     
     CheckersPanel panel;
     
