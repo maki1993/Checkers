@@ -177,4 +177,45 @@ public class CheckersFigure {
 
         }
     }
+
+    CheckersMove[] getJumps(int player, int row, int col) {
+
+        if (player != RED && player != BLUE) {
+            return null;
+        }
+        int playerQueen = 0;
+        if (player == RED) {
+            playerQueen = RED_QUEEN;
+        } else {
+            playerQueen = BLUE_QUEEN;
+        }
+
+        ArrayList<CheckersMove> moves = new ArrayList<CheckersMove>();
+
+        if (figure[row][col] == player || figure[row][col] == playerQueen) {
+            if (canJump(player, row, col, row + 1, col + 1, row + 2, col + 2)) {
+                moves.add(new CheckersMove(row, col, row + 2, col + 2));
+            }
+            if (canJump(player, row, col, row - 1, col + 1, row - 2, col + 2)) {
+                moves.add(new CheckersMove(row, col, row - 2, col + 2));
+            }
+            if (canJump(player, row, col, row + 1, col - 1, row + 2, col - 2)) {
+                moves.add(new CheckersMove(row, col, row + 2, col - 2));
+            }
+            if (canJump(player, row, col, row - 1, col - 1, row - 2, col - 2)) {
+                moves.add(new CheckersMove(row, col, row - 2, col - 2));
+            }
+        }
+
+        if (moves.size() == 0) {
+            return null;
+        } else {
+            CheckersMove[] moveArray = new CheckersMove[moves.size()];
+            for (int i = 0; i < moves.size(); i++) {
+                moveArray[i] = moves.get(i);
+            }
+            return moveArray;
+
+        }
+    }
 }
