@@ -63,10 +63,10 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         helpFrame = new CheckersHelpFrame(this);
 
         score = new CheckersScore(this);
-        System.out.println(figure.getSize());
+
         for (int i = 0; i < figure.getSize(); i++) {
             for (int j = 0; j < figure.getSize(); j++) {
-                Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_DIMENSION(), field.getY() + j * field. getFILED_DIMENSION());
+                Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_DIMENSION(), field.getY() + j * field.getFILED_DIMENSION());
             }
         }
     }
@@ -228,6 +228,15 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     void doMakeMove(CheckersMove move) {
 
         figure.moveFigure(move);
+        if (move.row1 - move.row2 == 2 || move.row1 - move.row2 == -2) {
+            moves = figure.getJumps(currentPlayer, move.row2, move.col2);
+            if (moves != null) {
+                selectedRow = move.row2;
+                selectedCol = move.col2;
+                repaint();
+                return;
+            }
+        }
 
         if (currentPlayer == CheckersFigure.RED) {
             currentPlayer = CheckersFigure.BLUE;
