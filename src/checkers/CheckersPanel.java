@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
 
-    CheckersField[][] Field = new CheckersField[8][8];
+    CheckersField[][] Field = new CheckersField[CheckersFigure.size][CheckersFigure.size];
 
     CheckersField field = new CheckersField(20, 20);
 
@@ -26,7 +26,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     private Font mainFont;
 
-    private final int PANEL_DIMENSION = 600;
+    private final int PANEL_DIMENSION = 40 + 70 * figure.getSize();
     CheckersMove[] moves;
 
     GameFrame gameFrame;
@@ -63,10 +63,10 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         helpFrame = new CheckersHelpFrame(this);
 
         score = new CheckersScore(this);
-
-        for (int i = 0; i < CheckersFigure.getSize(); i++) {
-            for (int j = 0; j < CheckersFigure.getSize(); j++) {
-                Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_HIGHT(), field.getX() + j * field.getFILED_HIGHT());
+        System.out.println(figure.getSize());
+        for (int i = 0; i < figure.getSize(); i++) {
+            for (int j = 0; j < figure.getSize(); j++) {
+                Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_DIMENSION(), field.getY() + j * field. getFILED_DIMENSION());
             }
         }
     }
@@ -145,8 +145,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         drawBackground(g2d);
         if (inGame) {
 
-            for (int row = 0; row < CheckersFigure.getSize(); row++) {
-                for (int col = 0; col < CheckersFigure.getSize(); col++) {
+            for (int row = 0; row < figure.getSize(); row++) {
+                for (int col = 0; col < figure.getSize(); col++) {
                     if (row % 2 == col % 2) {
                         g2d.setColor(Color.BLACK);
                     } else {
@@ -278,8 +278,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         if (inGame == false) {
             System.out.println("Game over");
         } else {
-            int row = (e.getX()) / field.getFILED_HIGHT();
-            int col = (e.getY()) / field.getFILED_HIGHT();
+            int row = (e.getX()) / field.getFILED_DIMENSION();
+            int col = (e.getY()) / field.getFILED_DIMENSION();
             if (col >= 0 && col < 8 && row >= 0 && row < 8) {
                 doClickSquare(row, col);
             }

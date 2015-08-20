@@ -7,11 +7,10 @@ public class CheckersFigure {
     static final int EMPTY = 0, RED = 1, RED_QUEEN = 2, BLUE = 3, BLUE_QUEEN = 4;
     int[][] figure;
 
-    static int size;
+    static int size = 8;
 
     public CheckersFigure() {
 
-        size = 8;
         figure = new int[size][size];
         setUpGame();
     }
@@ -22,7 +21,7 @@ public class CheckersFigure {
                 if (row % 2 == col % 2) {
                     if (col < 3) {
                         figure[row][col] = BLUE;
-                    } else if (col > 4) {
+                    } else if (col > size - 4) {
                         figure[row][col] = RED;
                     } else {
                         figure[row][col] = EMPTY;
