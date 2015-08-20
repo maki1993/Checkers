@@ -14,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
 import javax.swing.JPanel;
 
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
@@ -32,12 +31,17 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     GameFrame gameFrame;
     CheckersHelpFrame helpFrame;
+    CheckersScore score;
+
     private Image background;
 
     int currentPlayer;
     static Boolean inGame;
 
     int selectedRow, selectedCol;
+
+    static int redWin = 0;
+    static int blueWin = 0;
 
     public CheckersPanel() {
 
@@ -55,14 +59,24 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         figure = new CheckersFigure();
 
         gameFrame = new GameFrame(this);
-        
+
         helpFrame = new CheckersHelpFrame(this);
+
+        score = new CheckersScore(this);
 
         for (int i = 0; i < CheckersFigure.getSize(); i++) {
             for (int j = 0; j < CheckersFigure.getSize(); j++) {
                 Field[i][j] = new CheckersField(field.getX() + i * field.getFILED_HIGHT(), field.getX() + j * field.getFILED_HIGHT());
             }
         }
+    }
+
+    public static int getRedWin() {
+        return redWin;
+    }
+
+    public static int getBlueWin() {
+        return blueWin;
     }
 
     private void loadImages() {
@@ -99,6 +113,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     void gameOver(String str) {
 
         inGame = false;
+
         int answer;
         answer = javax.swing.JOptionPane.showConfirmDialog(null, str + "Da li želite da igrate ponovo ?", "Game Over",
                 javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -218,6 +233,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             currentPlayer = CheckersFigure.BLUE;
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
+                redWin++;
                 gameOver("Plavi ne može da se pomeri. Crveni je pobedio.");
             } else {
                 System.out.println("Plavi je na potezu!");
@@ -227,7 +243,9 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             currentPlayer = CheckersFigure.RED;
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
+                blueWin++;
                 gameOver("Crveni ne može da se pomeri. Plavi je pobedio.");
+
             } else {
                 System.out.println("Crveni je na potezu!");
             }

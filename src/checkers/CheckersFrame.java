@@ -31,6 +31,7 @@ public class CheckersFrame extends JFrame {
 
         JMenu gameMenu = new JMenu("Game");
         JMenu helpMenu = new JMenu("Help");
+        JMenu scoreMenu = new JMenu("Scores");
 
         JMenuItem game = new JMenuItem("New Game");
         JMenuItem exit = new JMenuItem("Exit");
@@ -73,9 +74,35 @@ public class CheckersFrame extends JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                
-              panel.helpFrame.setVisible(true);
-              panel.helpFrame.setLocationRelativeTo(panel);
+
+                panel.helpFrame.setVisible(true);
+                panel.helpFrame.setLocationRelativeTo(panel);
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        scoreMenu.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                panel.score.setVisible(true);
+                panel.score.setLocationRelativeTo(panel);
 
             }
 
@@ -99,6 +126,7 @@ public class CheckersFrame extends JFrame {
         gameMenu.add(exit);
 
         menuBar.add(gameMenu);
+        menuBar.add(scoreMenu);
         menuBar.add(helpMenu);
 
         return menuBar;
