@@ -20,7 +20,7 @@ public class GameFrame extends javax.swing.JFrame {
         size1 = new javax.swing.JCheckBox();
         option = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         size.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         size.setText("8x8");

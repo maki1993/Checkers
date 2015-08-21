@@ -101,9 +101,7 @@ public class CheckersFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                panel.score.setVisible(true);
-                panel.score.setLocationRelativeTo(panel);
-
+                panel.readScoreTextFileLineByLine();
             }
 
             @Override

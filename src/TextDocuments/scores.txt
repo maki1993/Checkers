@@ -1,0 +1,7 @@
+
+Crveni ima pobeda: 1
+
+Crveni ima pobeda   : 0
+Plavi ima pobeda   : 1
+Crveni ima pobeda   : 0
+Plavi ima pobeda   : 1
