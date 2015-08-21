@@ -11,9 +11,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
@@ -31,7 +39,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     GameFrame gameFrame;
     CheckersHelpFrame helpFrame;
-    CheckersScore score;
 
     private Image background;
 
@@ -61,8 +68,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         gameFrame = new GameFrame(this);
 
         helpFrame = new CheckersHelpFrame(this);
-
-        score = new CheckersScore(this);
 
         for (int i = 0; i < figure.getSize(); i++) {
             for (int j = 0; j < figure.getSize(); j++) {
@@ -190,7 +195,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             if (selectedCol >= 0) {
                 g.setColor(Color.pink);
                 g.drawRect(21 + selectedRow * 70, 21 + selectedCol * 70, 69, 69);
-                g.drawRect(21 + selectedRow * 70, 22 + selectedCol * 70, 67, 67);
+                g.drawRect(22 + selectedRow * 70, 22 + selectedCol * 70, 67, 67);
                 g.setColor(Color.green);
                 for (int i = 0; i < moves.length; i++) {
                     if (moves[i].col1 == selectedCol && moves[i].row1 == selectedRow) {
@@ -243,7 +248,19 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
                 redWin++;
+
+                try {
+                    List<String> scores = load("src/maja/scores.txt");
+
+                    scores.add("Crveni ima pobeda  " + " : " + getRedWin());
+                    scores.add("Plavi ima pobeda  " + " : " + getBlueWin());
+                    save_file("src/maja/scores.txt", scores);
+
+                } catch (IOException ex) {
+                    System.out.println("Error : " + ex);
+                }
                 gameOver("Plavi ne može da se pomeri. Crveni je pobedio.");
+
             } else {
                 System.out.println("Plavi je na potezu!");
             }
@@ -253,6 +270,16 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
                 blueWin++;
+                try {
+                    List<String> scores = load("src/TextDocuments/scores.txt");
+
+                    scores.add("Crveni ima pobeda  " + " : " + getRedWin());
+                    scores.add("Plavi ima pobeda  " + " : " + getBlueWin());
+                    save_file("src/TextDocuments/scores.txt", scores);
+
+                } catch (IOException ex) {
+                    System.out.println("Error : " + ex);
+                }
                 gameOver("Crveni ne može da se pomeri. Plavi je pobedio.");
 
             } else {
@@ -311,6 +338,87 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    private void save_file(String name_fale, List<String> scores) throws IOException {
+
+        File file = new File(name_fale);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
+            for (String score : scores) {
+                writer.println(score);
+            }
+        }
+    }
+
+    private List<String> load(String file_name) throws FileNotFoundException {
+        File file = new File(file_name);
+
+        if (!file.exists()) {
+            throw new FileNotFoundException();
+        }
+
+        List<String> scores = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                scores.add(scanner.nextLine());
+
+            }
+        }
+
+        return scores;
+    }
+
+    public static void readScoreTextFileLineByLine() {
+        FileReader in = null;
+        BufferedReader bin = null;
+
+        try {
+
+            File file = new File("src/TextDocuments/scores.txt");
+
+            in = new FileReader(file);
+
+            bin = new BufferedReader(in);
+
+            String data;
+            ArrayList<String> words = new ArrayList<>();
+
+            while ((data = bin.readLine()) != null) {
+                words.add(data);
+            }
+
+            int d = words.size();
+
+            String strLine = "";
+
+            for (int i = 0; i < d; i++) {
+                strLine += words.get(i) + "\n";
+            }
+            JOptionPane.showMessageDialog(null, strLine, "Scores", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString());
+        } finally {
+            if (bin != null) {
+                try {
+                    bin.close();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.toString());
+                }
+            }
+
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.toString());
+                }
+            }
+        }
     }
 
 }
