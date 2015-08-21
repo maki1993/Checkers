@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -24,7 +26,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class CheckersPanel extends JPanel implements ActionListener, MouseListener {
+public class CheckersPanel extends JPanel implements ActionListener, MouseListener, KeyListener {
 
     CheckersField[][] Field = new CheckersField[CheckersFigure.size][CheckersFigure.size];
 
@@ -62,6 +64,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         inGame = false;
         addMouseListener(this);
+        addKeyListener(this);
 
         figure = new CheckersFigure();
 
@@ -325,7 +328,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
@@ -419,6 +421,84 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 }
             }
         }
+    }
+
+    public static void readHelpTextFileLineByLine() {
+        FileReader in = null;
+        BufferedReader bin = null;
+
+        try {
+
+            File file = new File("src/TextDocuments/Help.txt");
+
+            in = new FileReader(file);
+
+            bin = new BufferedReader(in);
+
+            String data;
+            ArrayList<String> words = new ArrayList<>();
+
+            while ((data = bin.readLine()) != null) {
+                words.add(data);
+            }
+
+            int d = words.size();
+
+            String strLine = "";
+
+            for (int i = 0; i < d; i++) {
+                strLine += words.get(i) + "\n";
+            }
+            JOptionPane.showMessageDialog(null, strLine, "Help", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.toString());
+        } finally {
+            if (bin != null) {
+                try {
+                    bin.close();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.toString());
+                }
+            }
+
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.toString());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_F1) {
+            this.readHelpTextFileLineByLine();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_F2) {
+            if (CheckersPanel.getInGame()) {
+                int answer;
+                answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
+                        javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+                if (answer == javax.swing.JOptionPane.YES_OPTION) {
+                    this.newGame();
+                }
+            }
+            this.newGame();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_F3) {
+            this.readScoreTextFileLineByLine();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 
 }
