@@ -1,16 +1,28 @@
-HOW TO PLAY
+ HOW TO PLAY
 
-Checkers is played on a standard 64 square board. 
-Only the 32 dark colored squares are used in play. 
-Each player begins the game with 12 pieces, or checkers,
-placed in the three rows closest to him or her.
-The object of the game is to capture all of your opponent’s
-checkers or position your pieces so that your opponent
-has no available moves.
+                                                                       MOVEMENT
 
-MOVEMENT
-
-Basic movement is to move a checker one space diagonally forward.
-You can not move a checker backwards until it becomes a Queen,
-as described below. If a jump is available, you must take the jump,
+Basic movement is to move a checker one space diagonally forward.You can not move a checker
+backwards until it becomes a Queen,as described below. If a jump is available, you must take the jump,
 as described in the next question and answer.
+
+                                                                      JUMPING
+
+If one of your opponent’s checkers is on a forward diagonal next to one of your checkers, and the next 
+space beyond the opponent’s checker is empty, then your checker must jump the opponent’s checker 
+and land in the space beyond.  Your opponent’s checker is captured and removed from the board. 
+
+                                                       YOU MUST JUMP IF POSSIBLE
+
+If a jump is available for one of your pieces, you must make that jump. If more jumps are available with
+ that same piece, you must continue to jump with it until it can jump no more. To make the second and 
+third jump with a piece, you do not need to click that piece again. Just click the next space to which it will jump. 
+
+If more than one of your pieces has a jump available at the start of your turn, you can
+ choose which piece you will move. But then you must make all the jumps available for that piece. 
+
+                                                                    CROWNING
+
+When one of your checkers reaches the opposite side of the board, it is crowned and becomes a King. 
+Your turn ends there. A Queen can move backward as well as forward along the diagonals. 
+It can only move a distance of one space. A Queen can also jump backward and forward. . 

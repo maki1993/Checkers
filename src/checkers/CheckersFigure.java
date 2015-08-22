@@ -10,12 +10,14 @@ public class CheckersFigure {
     static int size = 8;
 
     public CheckersFigure() {
-
+        
         figure = new int[size][size];
         setUpGame();
+        
     }
 
     void setUpGame() {
+
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
                 if (row % 2 == col % 2) {

@@ -1,0 +1,8 @@
+
+Checkers is played on a standard 64 square  board. 
+Only the 32 dark colored squares are used in play. 
+Each player  begins the  game  with  12 pieces, or 
+checkers, placed in the three rows closest  to him 
+or her.The object of the game is to capture all of 
+your opponent's checkers or  position  your pieces 
+so that your opponent has no available moves.

@@ -1,13 +1,18 @@
 package checkers;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class GameFrame extends javax.swing.JFrame {
 
     static int sizeOf;
-    
+
     CheckersPanel panel;
-    
+
     public GameFrame(CheckersPanel panel) {
+        this.setAlwaysOnTop(true);
         this.panel = panel;
+        this.setTitle("Game");
         initComponents();
     }
 
@@ -78,27 +83,35 @@ public class GameFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sizeActionPerformed
-        if(size.isSelected())
-            sizeOf = 8;
+        if (size.isSelected()) {
+            size1.setSelected(false);
+        }
+        sizeOf = 8;
     }//GEN-LAST:event_sizeActionPerformed
 
     private void size1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_size1ActionPerformed
-        if(size1.isSelected())
-            sizeOf = 12;
+        if (size1.isSelected()) {
+            size.setSelected(false);
+        }
+        sizeOf = 12;
     }//GEN-LAST:event_size1ActionPerformed
 
     private void optionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionActionPerformed
-        panel.setVisible(true);
-        this.dispose();
-        panel.newGame();
+        if (!(size.isSelected() || size1.isSelected())) {
+            this.toBack();
+            JOptionPane.showMessageDialog(new JFrame(), "Select size",
+                    "Warning", 0);
+            this.toFront();
+        } else {
+            panel.setVisible(true);
+            this.dispose();
+            panel.newGame();
+        }
     }//GEN-LAST:event_optionActionPerformed
 
     public static int getSizeOf() {
         return sizeOf;
     }
-
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

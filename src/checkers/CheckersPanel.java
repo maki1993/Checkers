@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener, KeyListener {
 
     CheckersField[][] Field = new CheckersField[CheckersFigure.size][CheckersFigure.size];
-
     CheckersField field = new CheckersField(20, 20);
 
     CheckersFigure figure;
@@ -59,7 +58,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         setPreferredSize(new Dimension(PANEL_DIMENSION, PANEL_DIMENSION));
         setLayout(null);
-        setBackground(Color.WHITE);
+        setBackground(Color.LIGHT_GRAY);
         setFocusable(true);
 
         inGame = false;
@@ -108,11 +107,12 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     }
 
     void newGame() {
+
         figure.setUpGame();
         currentPlayer = CheckersFigure.RED;
         moves = figure.getMoves(CheckersFigure.RED);
         inGame = true;
-        System.out.println("Crveni je na potezu!");
+        System.out.println("Red player's move!");
         selectedCol = -1;
         repaint();
 
@@ -123,11 +123,11 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         inGame = false;
 
         int answer;
-        answer = javax.swing.JOptionPane.showConfirmDialog(null, str + "Da li želite da igrate ponovo ?", "Game Over",
+        answer = javax.swing.JOptionPane.showConfirmDialog(null, str + "\n Do you want play again ?", "Game Over",
                 javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
         if (answer == javax.swing.JOptionPane.NO_OPTION) {
             int answer1;
-            answer1 = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da napustite igru ?", "Game Over",
+            answer1 = javax.swing.JOptionPane.showConfirmDialog(null, "Are you sure you want to exit ?", "Game Over",
                     javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
             if (answer1 == javax.swing.JOptionPane.YES_OPTION) {
                 System.exit(0);
@@ -150,7 +150,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         g2d.setFont(mainFont);
 
-        drawBackground(g2d);
         if (inGame) {
 
             for (int row = 0; row < figure.getSize(); row++) {
@@ -196,7 +195,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 g2d.drawRect(22 + moves[i].row1 * 70, 22 + moves[i].col1 * 70, 67, 67);
             }
             if (selectedCol >= 0) {
-                g.setColor(Color.pink);
+                g.setColor(Color.PINK);
                 g.drawRect(21 + selectedRow * 70, 21 + selectedCol * 70, 69, 69);
                 g.drawRect(22 + selectedRow * 70, 22 + selectedCol * 70, 67, 67);
                 g.setColor(Color.green);
@@ -207,8 +206,10 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                     }
                 }
             }
+        } else {
+            drawBackground(g2d);
+            g2d.dispose();
         }
-
     }
 
     void doClickSquare(int row, int col) {
@@ -251,21 +252,22 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             moves = figure.getMoves(currentPlayer);
             if (moves == null) {
                 redWin++;
-
                 try {
-                    List<String> scores = load("src/maja/scores.txt");
-
-                    scores.add("Crveni ima pobeda  " + " : " + getRedWin());
-                    scores.add("Plavi ima pobeda  " + " : " + getBlueWin());
-                    save_file("src/maja/scores.txt", scores);
+                    List<String> scores = load("src/TextDocuments/scores.txt");
+                    int x = Integer.parseInt((scores.get(0)).substring(16, (scores.get(0)).length()));
+                    int y = Integer.parseInt((scores.get(1)).substring(16, (scores.get(1)).length()));
+                    scores.clear();
+                    scores.add("Red  has wins:  " + (x + 1));
+                    scores.add("Blue has wins:  " + y);
+                    save_file("src/TextDocuments/scores.txt", scores);
 
                 } catch (IOException ex) {
                     System.out.println("Error : " + ex);
                 }
-                gameOver("Plavi ne može da se pomeri. Crveni je pobedio.");
+                gameOver("Blue can't move. Red player won.");
 
             } else {
-                System.out.println("Plavi je na potezu!");
+                System.out.println("Blue player's move!");
             }
 
         } else {
@@ -276,17 +278,20 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 try {
                     List<String> scores = load("src/TextDocuments/scores.txt");
 
-                    scores.add("Crveni ima pobeda  " + " : " + getRedWin());
-                    scores.add("Plavi ima pobeda  " + " : " + getBlueWin());
+                    int x = Integer.parseInt((scores.get(0)).substring(16, (scores.get(0)).length()));
+                    int y = Integer.parseInt((scores.get(1)).substring(16, (scores.get(1)).length()));
+                    scores.clear();
+                    scores.add("Red  has wins:  " + x);
+                    scores.add("Blue has wins:  " + (y + 1));
                     save_file("src/TextDocuments/scores.txt", scores);
 
                 } catch (IOException ex) {
                     System.out.println("Error : " + ex);
                 }
-                gameOver("Crveni ne može da se pomeri. Plavi je pobedio.");
+                gameOver("Red can't move. Blue player won.");
 
             } else {
-                System.out.println("Crveni je na potezu!");
+                System.out.println("Red player's move!");
             }
 
         }
@@ -374,13 +379,13 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         return scores;
     }
 
-    public static void readScoreTextFileLineByLine() {
+    public static void readTextFileLineByLine(String filePath) {
         FileReader in = null;
         BufferedReader bin = null;
 
         try {
 
-            File file = new File("src/TextDocuments/scores.txt");
+            File file = new File(filePath);
 
             in = new FileReader(file);
 
@@ -400,56 +405,11 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             for (int i = 0; i < d; i++) {
                 strLine += words.get(i) + "\n";
             }
-            JOptionPane.showMessageDialog(null, strLine, "Scores", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString());
-        } finally {
-            if (bin != null) {
-                try {
-                    bin.close();
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex.toString());
-                }
+            if (filePath.contains("scores")) {
+                JOptionPane.showMessageDialog(null, strLine, "Scores", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, strLine, "About checkers", JOptionPane.INFORMATION_MESSAGE);
             }
-
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex.toString());
-                }
-            }
-        }
-    }
-
-    public static void readHelpTextFileLineByLine() {
-        FileReader in = null;
-        BufferedReader bin = null;
-
-        try {
-
-            File file = new File("src/TextDocuments/Help.txt");
-
-            in = new FileReader(file);
-
-            bin = new BufferedReader(in);
-
-            String data;
-            ArrayList<String> words = new ArrayList<>();
-
-            while ((data = bin.readLine()) != null) {
-                words.add(data);
-            }
-
-            int d = words.size();
-
-            String strLine = "";
-
-            for (int i = 0; i < d; i++) {
-                strLine += words.get(i) + "\n";
-            }
-            JOptionPane.showMessageDialog(null, strLine, "Help", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex.toString());
@@ -478,13 +438,15 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (e.getKeyCode() == KeyEvent.VK_F1) {
-            this.readHelpTextFileLineByLine();
+            helpFrame.setVisible(true);
+            helpFrame.setLocationRelativeTo(null);
         }
         if (e.getKeyCode() == KeyEvent.VK_F2) {
             if (CheckersPanel.getInGame()) {
                 int answer;
-                answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
+                answer = javax.swing.JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this game ?", "QUESTION ?",
                         javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
                 if (answer == javax.swing.JOptionPane.YES_OPTION) {
                     this.newGame();
@@ -493,7 +455,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             this.newGame();
         }
         if (e.getKeyCode() == KeyEvent.VK_F3) {
-            this.readScoreTextFileLineByLine();
+            this.readTextFileLineByLine("src/TextDocuments/scores.txt");
         }
     }
 

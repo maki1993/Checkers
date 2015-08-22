@@ -16,6 +16,7 @@ public class CheckersFrame extends JFrame {
     public CheckersFrame() {
 
         setResizable(false);
+        setTitle("Checkers");
         setJMenuBar(initMenu());
         add(panel);
         pack();
@@ -30,11 +31,13 @@ public class CheckersFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu gameMenu = new JMenu("Game");
-        JMenu helpMenu = new JMenu("Help  F1");
+        JMenu helpMenu = new JMenu("Help");
         JMenu scoreMenu = new JMenu("Scores  F3");
 
         JMenuItem game = new JMenuItem("New Game  F2");
         JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem viewHelp = new JMenuItem("View help  F1");
+        JMenuItem about = new JMenuItem("About Checkers");
 
         game.addActionListener(new ActionListener() {
 
@@ -43,18 +46,64 @@ public class CheckersFrame extends JFrame {
 
                 if (CheckersPanel.getInGame()) {
                     int answer;
-                    answer = javax.swing.JOptionPane.showConfirmDialog(null, "Da li ste sigurni da želite da prekinete igru ?", "QUESTION ?",
+                    answer = javax.swing.JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this game ?", "QUESTION ?",
                             javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
                     if (answer == javax.swing.JOptionPane.YES_OPTION) {
                         panel.newGame();
-                        /*panel.frame.setVisible(true);
-                         panel.frame.setLocationRelativeTo(panel);*/
+                        /*panel.gameFrame.setVisible(true);
+                         panel.gameFrame.setLocationRelativeTo(null);*/
                     }
                 }
-                /*panel.frame.setVisible(true);
-                 panel.frame.setLocationRelativeTo(panel);*/
+                /*panel.gameFrame.setVisible(true);
+                 panel.gameFrame.setLocationRelativeTo(null);*/
                 panel.newGame();
             }
+        });
+
+        scoreMenu.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                panel.readTextFileLineByLine("src/TextDocuments/scores.txt");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+
+        viewHelp.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                panel.helpFrame.setVisible(true);
+                panel.helpFrame.setLocationRelativeTo(null);
+            }
+
+        });
+
+        about.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                panel.readTextFileLineByLine("src/TextDocuments/aboutCheckers.txt");
+            }
+
         });
 
         exit.addActionListener(new ActionListener() {
@@ -70,58 +119,12 @@ public class CheckersFrame extends JFrame {
 
             }
         });
-        helpMenu.addMouseListener(new MouseListener() {
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                panel.readHelpTextFileLineByLine();
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
-        scoreMenu.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                panel.readScoreTextFileLineByLine();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
-        
         gameMenu.add(game);
         gameMenu.add(exit);
+
+        helpMenu.add(viewHelp);
+        helpMenu.add(about);
 
         menuBar.add(gameMenu);
         menuBar.add(scoreMenu);

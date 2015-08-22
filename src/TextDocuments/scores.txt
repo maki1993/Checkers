@@ -1,7 +1,2 @@
-
-Crveni ima pobeda: 1
-
-Crveni ima pobeda   : 0
-Plavi ima pobeda   : 1
-Crveni ima pobeda   : 0
-Plavi ima pobeda   : 1
+Red  has wins:  4
+Blue has wins:  11
