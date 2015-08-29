@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 public class CheckersPanel extends JPanel implements ActionListener, MouseListener, KeyListener {
 
     CheckersField[][] Field = new CheckersField[CheckersFigure.size][CheckersFigure.size];
+
     CheckersField field = new CheckersField(20, 20);
 
     CheckersFigure figure;
@@ -47,6 +48,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     static Boolean inGame;
 
     int selectedRow, selectedCol;
+    int size;
+    private int[][] intCheckers;
 
     static int redWin = 0;
     static int blueWin = 0;
@@ -246,54 +249,49 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 return;
             }
         }
+        try {
 
-        if (currentPlayer == CheckersFigure.RED) {
-            currentPlayer = CheckersFigure.BLUE;
-            moves = figure.getMoves(currentPlayer);
-            if (moves == null) {
-                redWin++;
-                try {
-                    List<String> scores = load("src/TextDocuments/scores.txt");
-                    int x = Integer.parseInt((scores.get(0)).substring(16, (scores.get(0)).length()));
-                    int y = Integer.parseInt((scores.get(1)).substring(16, (scores.get(1)).length()));
-                    scores.clear();
+            List<String> scores = load("src/TextDocuments/scores.txt");
+            int x = Integer.parseInt((scores.get(0)).substring(16, (scores.get(0)).length()));
+            int y = Integer.parseInt((scores.get(1)).substring(16, (scores.get(1)).length()));
+            scores.clear();
+
+            if (currentPlayer == CheckersFigure.RED) {
+                currentPlayer = CheckersFigure.BLUE;
+                moves = figure.getMoves(currentPlayer);
+                if (moves == null) {
+                    redWin++;
+
                     scores.add("Red  has wins:  " + (x + 1));
                     scores.add("Blue has wins:  " + y);
                     save_file("src/TextDocuments/scores.txt", scores);
 
-                } catch (IOException ex) {
-                    System.out.println("Error : " + ex);
+                    gameOver("Blue can't move. Red player won.");
+
+                } else {
+                    System.out.println("Blue player's move!");
                 }
-                gameOver("Blue can't move. Red player won.");
 
             } else {
-                System.out.println("Blue player's move!");
-            }
+                currentPlayer = CheckersFigure.RED;
+                moves = figure.getMoves(currentPlayer);
+                if (moves == null) {
+                    blueWin++;
 
-        } else {
-            currentPlayer = CheckersFigure.RED;
-            moves = figure.getMoves(currentPlayer);
-            if (moves == null) {
-                blueWin++;
-                try {
-                    List<String> scores = load("src/TextDocuments/scores.txt");
-
-                    int x = Integer.parseInt((scores.get(0)).substring(16, (scores.get(0)).length()));
-                    int y = Integer.parseInt((scores.get(1)).substring(16, (scores.get(1)).length()));
-                    scores.clear();
                     scores.add("Red  has wins:  " + x);
                     scores.add("Blue has wins:  " + (y + 1));
                     save_file("src/TextDocuments/scores.txt", scores);
 
-                } catch (IOException ex) {
-                    System.out.println("Error : " + ex);
-                }
-                gameOver("Red can't move. Blue player won.");
+                    gameOver("Red can't move. Blue player won.");
 
-            } else {
-                System.out.println("Red player's move!");
+                } else {
+                    System.out.println("Red player's move!");
+                }
+
             }
 
+        } catch (IOException ex) {
+            System.out.println("Error : " + ex);
         }
 
         selectedCol = -1;

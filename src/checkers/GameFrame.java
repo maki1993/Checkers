@@ -103,8 +103,8 @@ public class GameFrame extends javax.swing.JFrame {
                     "Warning", 0);
             this.toFront();
         } else {
-            panel.setVisible(true);
             this.dispose();
+            panel.setVisible(true);
             panel.newGame();
         }
     }//GEN-LAST:event_optionActionPerformed

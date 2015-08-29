@@ -52,8 +52,10 @@ public class CheckersFrame extends JFrame {
                         panel.newGame();
                         /*panel.gameFrame.setVisible(true);
                          panel.gameFrame.setLocationRelativeTo(null);*/
+
                     }
                 }
+
                 /*panel.gameFrame.setVisible(true);
                  panel.gameFrame.setLocationRelativeTo(null);*/
                 panel.newGame();

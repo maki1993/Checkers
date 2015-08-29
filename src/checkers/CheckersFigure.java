@@ -5,15 +5,15 @@ import java.util.ArrayList;
 public class CheckersFigure {
 
     static final int EMPTY = 0, RED = 1, RED_QUEEN = 2, BLUE = 3, BLUE_QUEEN = 4;
+
     int[][] figure;
 
     static int size = 8;
 
     public CheckersFigure() {
-        
         figure = new int[size][size];
         setUpGame();
-        
+
     }
 
     void setUpGame() {
@@ -141,28 +141,36 @@ public class CheckersFigure {
             for (int col = 0; col < size; col++) {
                 if (figure[row][col] == player || figure[row][col] == playerQueen) {
                     if (canJump(player, row, col, row + 1, col + 1, row + 2, col + 2)) {
+
                         moves.add(new CheckersMove(row, col, row + 2, col + 2));
                     }
                     if (canJump(player, row, col, row - 1, col + 1, row - 2, col + 2)) {
                         moves.add(new CheckersMove(row, col, row - 2, col + 2));
+
                     }
                     if (canJump(player, row, col, row + 1, col - 1, row + 2, col - 2)) {
                         moves.add(new CheckersMove(row, col, row + 2, col - 2));
+
                     }
                     if (canJump(player, row, col, row - 1, col - 1, row - 2, col - 2)) {
                         moves.add(new CheckersMove(row, col, row - 2, col - 2));
+
                     }
                     if (canMove(player, row, col, row + 1, col + 1)) {
                         moves.add(new CheckersMove(row, col, row + 1, col + 1));
+
                     }
                     if (canMove(player, row, col, row - 1, col + 1)) {
                         moves.add(new CheckersMove(row, col, row - 1, col + 1));
+
                     }
                     if (canMove(player, row, col, row + 1, col - 1)) {
                         moves.add(new CheckersMove(row, col, row + 1, col - 1));
+
                     }
                     if (canMove(player, row, col, row - 1, col - 1)) {
                         moves.add(new CheckersMove(row, col, row - 1, col - 1));
+
                     }
                 }
             }
@@ -172,6 +180,7 @@ public class CheckersFigure {
             return null;
         } else {
             CheckersMove[] moveArray = new CheckersMove[moves.size()];
+
             for (int i = 0; i < moves.size(); i++) {
                 moveArray[i] = moves.get(i);
             }
