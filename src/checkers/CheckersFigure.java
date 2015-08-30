@@ -179,12 +179,7 @@ public class CheckersFigure {
         if (moves.size() == 0) {
             return null;
         } else {
-            CheckersMove[] moveArray = new CheckersMove[moves.size()];
-
-            for (int i = 0; i < moves.size(); i++) {
-                moveArray[i] = moves.get(i);
-            }
-            return moveArray;
+            return moves.toArray(new CheckersMove[moves.size()]);
 
         }
     }
@@ -221,11 +216,8 @@ public class CheckersFigure {
         if (moves.size() == 0) {
             return null;
         } else {
-            CheckersMove[] moveArray = new CheckersMove[moves.size()];
-            for (int i = 0; i < moves.size(); i++) {
-                moveArray[i] = moves.get(i);
-            }
-            return moveArray;
+
+            return moves.toArray(new CheckersMove[moves.size()]);
 
         }
     }
