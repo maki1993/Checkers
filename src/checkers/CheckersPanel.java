@@ -48,8 +48,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     static Boolean inGame;
 
     int selectedRow, selectedCol;
-    int size;
-    private int[][] intCheckers;
 
     static int redWin = 0;
     static int blueWin = 0;
@@ -437,21 +435,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_F1) {
-            helpFrame.setVisible(true);
-            helpFrame.setLocationRelativeTo(null);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_F2) {
-            if (CheckersPanel.getInGame()) {
-                int answer;
-                answer = javax.swing.JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this game ?", "QUESTION ?",
-                        javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
-                if (answer == javax.swing.JOptionPane.YES_OPTION) {
-                    this.newGame();
-                }
-            }
-            this.newGame();
-        }
         if (e.getKeyCode() == KeyEvent.VK_F3) {
             this.readTextFileLineByLine("src/TextDocuments/scores.txt");
         }
