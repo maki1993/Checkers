@@ -2,12 +2,15 @@ package checkers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.awt.event.InputEvent.ALT_DOWN_MASK;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 public class CheckersFrame extends JFrame {
 
@@ -34,10 +37,14 @@ public class CheckersFrame extends JFrame {
         JMenu helpMenu = new JMenu("Help");
         JMenu scoreMenu = new JMenu("Scores  F3");
 
-        JMenuItem game = new JMenuItem("New Game  F2");
+        JMenuItem game = new JMenuItem("New Game");
         JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem viewHelp = new JMenuItem("View help  F1");
+        JMenuItem viewHelp = new JMenuItem("View help");
         JMenuItem about = new JMenuItem("About Checkers");
+
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ALT_DOWN_MASK));
+        game.setAccelerator(KeyStroke.getKeyStroke("F2"));
+        viewHelp.setAccelerator(KeyStroke.getKeyStroke("F1"));
 
         game.addActionListener(new ActionListener() {
 
