@@ -123,19 +123,28 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
         inGame = false;
 
-        int answer;
-        answer = javax.swing.JOptionPane.showConfirmDialog(null, str + "\n Do you want play again ?", "Game Over",
-                javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
-        if (answer == javax.swing.JOptionPane.NO_OPTION) {
-            int answer1;
-            answer1 = javax.swing.JOptionPane.showConfirmDialog(null, "Are you sure you want to exit ?", "Game Over",
+        try {
+
+            List<String> scores = load("src/TextDocuments/scores.txt");
+            int answer;
+            answer = javax.swing.JOptionPane.showConfirmDialog(null, str + "\n\n" + scores.get(0) + "\n"
+                    + scores.get(1) + "\n\n Do you want play again ?", "Game Over",
                     javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
-            if (answer1 == javax.swing.JOptionPane.YES_OPTION) {
-                System.exit(0);
+            if (answer == javax.swing.JOptionPane.NO_OPTION) {
+                int answer1;
+                answer1 = javax.swing.JOptionPane.showConfirmDialog(null, "Are you sure you want to exit ?", "Game Over",
+                        javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+                if (answer1 == javax.swing.JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            } else {
+                newGame();
             }
-        } else {
-            newGame();
+
+        } catch (IOException ex) {
+            System.out.println("Error : " + ex);
         }
+
     }
 
     @Override
