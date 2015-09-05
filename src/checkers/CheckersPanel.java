@@ -192,8 +192,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
             }
             g2d.setColor(Color.ORANGE);
             for (int i = 0; i < moves.length; i++) {
-                g2d.drawRect(21 + moves[i].row1 * 70, 21 + moves[i].col1 * 70, 69, 69);
-                g2d.drawRect(22 + moves[i].row1 * 70, 22 + moves[i].col1 * 70, 67, 67);
+                g2d.drawRect(21 + moves[i].fromRow * 70, 21 + moves[i].fromCol * 70, 69, 69);
+                g2d.drawRect(22 + moves[i].fromRow * 70, 22 + moves[i].fromCol * 70, 67, 67);
             }
             if (selectedCol >= 0) {
                 g.setColor(Color.PINK);
@@ -201,9 +201,9 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 g.drawRect(22 + selectedRow * 70, 22 + selectedCol * 70, 67, 67);
                 g.setColor(Color.green);
                 for (int i = 0; i < moves.length; i++) {
-                    if (moves[i].col1 == selectedCol && moves[i].row1 == selectedRow) {
-                        g.drawRect(21 + moves[i].row2 * 70, 21 + moves[i].col2 * 70, 69, 69);
-                        g.drawRect(22 + moves[i].row2 * 70, 22 + moves[i].col2 * 70, 67, 67);
+                    if (moves[i].fromCol == selectedCol && moves[i].fromRow == selectedRow) {
+                        g.drawRect(21 + moves[i].toRow * 70, 21 + moves[i].toCol * 70, 69, 69);
+                        g.drawRect(22 + moves[i].toRow * 70, 22 + moves[i].toCol * 70, 67, 67);
                     }
                 }
             }
@@ -216,7 +216,7 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     void doClickSquare(int row, int col) {
 
         for (int i = 0; i < moves.length; i++) {
-            if (moves[i].row1 == row && moves[i].col1 == col) {
+            if (moves[i].fromRow == row && moves[i].fromCol == col) {
                 selectedRow = row;
                 selectedCol = col;
 
@@ -226,8 +226,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         }
 
         for (int i = 0; i < moves.length; i++) {
-            if (moves[i].row1 == selectedRow && moves[i].col1 == selectedCol
-                    && moves[i].row2 == row && moves[i].col2 == col) {
+            if (moves[i].fromRow == selectedRow && moves[i].fromCol == selectedCol
+                    && moves[i].toRow == row && moves[i].toCol == col) {
                 doMakeMove(moves[i]);
                 return;
             }
@@ -238,11 +238,11 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     void doMakeMove(CheckersMove move) {
 
         figure.moveFigure(move);
-        if (move.row1 - move.row2 == 2 || move.row1 - move.row2 == -2) {
-            moves = figure.getJumps(currentPlayer, move.row2, move.col2);
+        if (move.fromRow - move.toRow == 2 || move.fromRow - move.toRow == -2) {
+            moves = figure.getJumps(currentPlayer, move.toRow, move.toCol);
             if (moves != null) {
-                selectedRow = move.row2;
-                selectedCol = move.col2;
+                selectedRow = move.toRow;
+                selectedCol = move.toCol;
                 repaint();
                 return;
             }
@@ -297,16 +297,16 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         if (moves != null) {
             boolean sameStartField = true;
             for (int i = 1; i < moves.length; i++) {
-                if (moves[i].row1 != moves[0].row1
-                        || moves[i].col1 != moves[0].col1) {
+                if (moves[i].fromRow != moves[0].fromRow
+                        || moves[i].fromCol != moves[0].fromCol) {
                     sameStartField = false;
                     break;
                 }
             }
             if (sameStartField) {
 
-                selectedRow = moves[0].row1;
-                selectedCol = moves[0].col1;
+                selectedRow = moves[0].fromRow;
+                selectedCol = moves[0].fromCol;
             }
         }
         repaint();

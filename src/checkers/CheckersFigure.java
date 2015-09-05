@@ -67,7 +67,7 @@ public class CheckersFigure {
     }
 
     void moveFigure(CheckersMove move) {
-        moveFigure(move.row1, move.col1, move.row2, move.col2);
+        moveFigure(move.fromRow, move.fromCol, move.toRow, move.toCol);
     }
 
     private boolean canJump(int player, int row1, int col1, int row2, int col2, int row3, int col3) {
