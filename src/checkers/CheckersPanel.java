@@ -39,7 +39,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     private final int PANEL_DIMENSION = 40 + 70 * figure.getSize();
     CheckersMove[] moves;
 
-    GameFrame gameFrame;
     CheckersHelpFrame helpFrame;
 
     private Image background;
@@ -67,8 +66,6 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         addKeyListener(this);
 
         figure = new CheckersFigure();
-
-        gameFrame = new GameFrame(this);
 
         helpFrame = new CheckersHelpFrame(this);
 

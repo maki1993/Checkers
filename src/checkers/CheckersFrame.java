@@ -57,14 +57,9 @@ public class CheckersFrame extends JFrame {
                             javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
                     if (answer == javax.swing.JOptionPane.YES_OPTION) {
                         panel.newGame();
-                        /*panel.gameFrame.setVisible(true);
-                         panel.gameFrame.setLocationRelativeTo(null);*/
 
                     }
                 }
-
-                /*panel.gameFrame.setVisible(true);
-                 panel.gameFrame.setLocationRelativeTo(null);*/
                 panel.newGame();
             }
         });
