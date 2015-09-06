@@ -48,8 +48,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
 
     int selectedRow, selectedCol;
 
-    static int redWin = 0;
-    static int blueWin = 0;
+    static int redWin;
+    static int blueWin;
 
     public CheckersPanel() {
 
@@ -256,8 +256,9 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
         try {
 
             List<String> scores = load("src/TextDocuments/scores.txt");
-            int x = Integer.parseInt((scores.get(0)).substring(16, (scores.get(0)).length()));
-            int y = Integer.parseInt((scores.get(1)).substring(16, (scores.get(1)).length()));
+            int indexOfLastSpace = scores.get(0).lastIndexOf(" ");
+            redWin = Integer.parseInt((scores.get(0)).substring(indexOfLastSpace + 1, (scores.get(0)).length()));
+            blueWin = Integer.parseInt((scores.get(1)).substring(indexOfLastSpace + 1, (scores.get(1)).length()));
             scores.clear();
 
             if (currentPlayer == CheckersFigure.RED) {
@@ -266,8 +267,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 if (moves == null) {
                     redWin++;
 
-                    scores.add("Red  has wins:  " + (x + 1));
-                    scores.add("Blue has wins:  " + y);
+                    scores.add("Red  has wins:  " + redWin);
+                    scores.add("Blue has wins:  " + blueWin);
                     save_file("src/TextDocuments/scores.txt", scores);
 
                     gameOver("Blue can't move. Red player won.");
@@ -281,9 +282,8 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
                 moves = figure.getMoves(currentPlayer);
                 if (moves == null) {
                     blueWin++;
-
-                    scores.add("Red  has wins:  " + x);
-                    scores.add("Blue has wins:  " + (y + 1));
+                    scores.add("Red  has wins:  " + redWin);
+                    scores.add("Blue has wins:  " + blueWin);
                     save_file("src/TextDocuments/scores.txt", scores);
 
                     gameOver("Red can't move. Blue player won.");
@@ -322,10 +322,10 @@ public class CheckersPanel extends JPanel implements ActionListener, MouseListen
     public void mouseClicked(MouseEvent e) {
 
         if (inGame == false) {
-            System.out.println("Game over");
+            System.out.println("PRESS \"New Game\" OR \"F2\" TO START NEW GAME !");
         } else {
-            int row = (e.getX()) / field.getFILED_DIMENSION();
-            int col = (e.getY()) / field.getFILED_DIMENSION();
+            int row = ((e.getX()) - field.getX()) / field.getFILED_DIMENSION();
+            int col = (e.getY() - field.getY()) / field.getFILED_DIMENSION();
             if (col >= 0 && col < 8 && row >= 0 && row < 8) {
                 doClickSquare(row, col);
             }

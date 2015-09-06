@@ -1,2 +1,2 @@
-Red  has wins:  14
-Blue has wins:  23
+Red  has wins:  17
+Blue has wins:  27
